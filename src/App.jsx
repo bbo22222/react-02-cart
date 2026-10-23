@@ -55,7 +55,29 @@ function App() {
                 <tbody>
                 {cart.map((item, index) => <tr key={index}>
                     <td>{item.name}</td>
-                    <td>수량변경</td>
+                    <td>
+                        <button onClick={() => {
+                            //지금 현재 수량이 1이하면, 실행하지 않게끔
+                            if(item.quantity <=1){
+                                return; }
+                            const newCart =[...cart]
+                            newCart[index].quantity -=1;
+                            setCart(newCart);
+                        }}>-</button>
+                        {item.quantity}
+                        <button onClick={() => {
+                            // 카트의 정보중 인덱스 자리에 있는 요소의 quantity값을
+                            //cart[index].quantity +=1; => 이렇게 쓰면 안됨 / react가 바뀐걸 모름
+                            //                         => state의 값을 바꿀 땐 set을 써야함
+
+                            //1. react가 알아차리게끔 하려면, 새 배열을 cart에 넣어야 함
+                            //2. 값을 바꾸고
+                            //3. 그렇게 만들어진 배열을 setCart에 넣게 단계별로 진행하는 게 이해하기 쉽고 편함
+                            const newCart = [...cart];
+                            newCart[index].quantity +=1;
+                            setCart(newCart);
+                        }}>+</button>
+                    </td>
                     <td>
                         <button onClick={() => {
                             const result = cart.filter((v, i) => { return i !== index });
